@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+       body{
+           background-color: black;
+       }
+       #brNews{
+           background-color: chocolate;
+           width:80%;
+           height:auto;
+           margin: auto;
+        } 
+        #contain{
+            background-color: white;
+            width:90%;
+            padding:1%;
+            border: 1px solid yellow;
+            margin: auto;
+        }
+        #search{
+            margin:auto;
+            text-align: center;
+        }
+       #inpt{
+           width:400px;
+           background-color: whitesmoke;
+       }
+       #submit{
+           width:100px;
+           background-color: red;
+           border: 1px solid yellow;
+       }
+    </style>
+</head>
+<body>
+    <div id="search">
+    <input id="inpt"></input>
+<button id="submit">Search</button>  
+    </div>  
+    <h1 style="text-align: center; color:white">Top Stories from INDIA</h1>
+
+    <div id="brNews"><div id="contain"></div></div>
+ 
+ <script>
+let mainparent=document.getElementById("brNews");
+let parent=document.getElementById("contain");
+
+        async function headlines(){
+        
+        let res  = await fetch('http://newsapi.org/v2/top-headlines?country=in&apiKey=7a82c3d49692448093e8a99fb6844bd0');
+        let data= await res.json();
+        console.log(data.articles);
+        show(data.articles);
+        }
+        
+        headlines();
+  
+        function show(el){
+            el.forEach((e)=>{
+
+            let T=document.createElement("h3");
+            T.textContent=e.title;
+            T.onclick= function(){
+                store(e);
+                window.location.href="news.html";
+            }
+
+            let A=document.createElement("div");
+            A.textContent=e.author;
+
+            let dash=document.createElement("div");
+            dash.textContent="-----------------------";
+
+            parent.append(T,A,dash);
+        })
+        mainparent.append(parent);
+        }
+
+
+
+        function store(elmnt){
+         
+            localStorage.setItem("activeNews",JSON.stringify([]));
+            var news =JSON.parse(localStorage.getItem("activeNews"));
+
+            let obj={
+                 titl:elmnt.title,
+                 imag:elmnt.urlToImage,
+                 aut:elmnt.author,
+                 cont:elmnt.content,
+                 des:elmnt.descriptipn,
+                 dat:elmnt.publishedAt,
+            }
+            news.push(obj);
+            (localStorage.setItem("activeNews",JSON.stringify(news)));
+        }
+
+
+  
+        </script>
+</body>
+</html>

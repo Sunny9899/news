@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <style>
+      body{
+          background-color: black;
+      }
+      #show{
+          background-color: white;
+          margin:auto;
+          color:black;
+          padding:1%;
+      }
+      .I{
+          width:600px;
+          height:400px;
+      }
+    </style>
+</head>
+<body>
+    <div id="show"></div>
+    <script>
+    let parent=document.getElementById("show");
+
+    var news=JSON.parse(localStorage.getItem("activeNews"));
+
+//console.log(news[0]);
+
+    function showNews(){
+    const A=document.createElement("p");
+    A.textContent="By: "+news[0].aut;
+
+    const T=document.createElement("h3");
+    T.textContent=news[0].titl; 
+ 
+    const C=document.createElement("p");
+    C.textContent=news[0].cont;
+    
+    const D=document.createElement("p");
+    D.textContent=news[0].dat;    
+
+    const I=document.createElement("img");
+    I.src=news[0].imag;
+    I.setAttribute("class","I");
+
+    parent.append(A,D,T,I,C);
+    }
+    showNews();
+
+
+        </script>
+</body>
+</html>
